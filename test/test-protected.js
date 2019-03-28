@@ -101,15 +101,17 @@ describe('Protected endpoint', function () {
     it('Should reject requests with an expired token', function () {
       const token = jwt.sign(
         {
+          user: {
             username,
             firstName,
             lastName
+          },
+          exp: Math.floor(Date.now() / 1000) - 10 // Expired ten seconds ago
         },
         JWT_SECRET,
         {
           algorithm: 'HS256',
-          subject: username,
-          expiresIn: Math.floor(Date.now() / 1000) - 10 // Expired ten seconds ago
+          subject: username
         }
       );
 
@@ -129,6 +131,40 @@ describe('Protected endpoint', function () {
           expect(res).to.have.status(401);
         });
     });
+
+
+
+    // it('Should reject requests with an expired token', function () {
+    //   const token = jwt.sign(
+    //     {
+    //         username,
+    //         firstName,
+    //         lastName
+    //     },
+    //     JWT_SECRET,
+    //     {
+    //       algorithm: 'HS256',
+    //       subject: username,
+    //       expiresIn: Math.floor(Date.now() / 1000) - 10 // Expired ten seconds ago
+    //     }
+    //   );
+
+    //   return chai
+    //     .request(app)
+    //     .get('/api/protected')
+    //     .set('authorization', `Bearer ${token}`)
+    //     .then(() =>
+    //       expect.fail(null, null, 'Request should not succeed')
+    //     )
+    //     .catch(err => {
+    //       if (err instanceof chai.AssertionError) {
+    //         throw err;
+    //       }
+
+    //       const res = err.response;
+    //       expect(res).to.have.status(401);
+    //     });
+    // });
     it('Should send protected data', function () {
       const token = jwt.sign(
         {
