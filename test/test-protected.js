@@ -63,6 +63,8 @@ describe('Protected endpoint', function () {
     });
 
     it('Should reject requests with an invalid token', function () {
+      // https://www.npmjs.com/package/jsonwebtoken#jwtsignpayload-secretorprivatekey-options-callback
+      // jwt.sign(payload, secretOrPrivateKey, [options, callback])
       const token = jwt.sign(
         {
           username,
@@ -71,6 +73,7 @@ describe('Protected endpoint', function () {
         },
         'wrongSecret',
         {
+          subject: username,
           algorithm: 'HS256',
           expiresIn: '7d'
         }
@@ -81,6 +84,9 @@ describe('Protected endpoint', function () {
         .get('/api/protected')
         .set('Authorization', `Bearer ${token}`)
         .then(() =>
+        // .fail([message])
+        // .fail(actual, expected, [message], [operator])
+
           expect.fail(null, null, 'Request should not succeed')
         )
         .catch(err => {
@@ -95,17 +101,15 @@ describe('Protected endpoint', function () {
     it('Should reject requests with an expired token', function () {
       const token = jwt.sign(
         {
-          user: {
             username,
             firstName,
             lastName
-          },
-          exp: Math.floor(Date.now() / 1000) - 10 // Expired ten seconds ago
         },
         JWT_SECRET,
         {
           algorithm: 'HS256',
-          subject: username
+          subject: username,
+          expiresIn: Math.floor(Date.now() / 1000) - 10 // Expired ten seconds ago
         }
       );
 
