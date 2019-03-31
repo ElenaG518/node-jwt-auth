@@ -7,7 +7,6 @@ const faker = require('faker');
 const mongoose = require('mongoose');
 
 const { Journey, Image } = require('../journeys/models');
-const { User } = require('../users/models');
 
 const { app, runServer, closeServer } = require('../server');
 const { JWT_SECRET, TEST_DATABASE_URL } = require('../config');
@@ -114,6 +113,51 @@ describe('/api/journeys', function () {
             })    
         });
     });
+
+    describe ('GET for journey with specific id', function() {
+        it('should get journey with id', function() {
+
+            const token = jwt.sign(
+                {
+                  user: {
+                    username,
+                    firstName,
+                    lastName
+                  }
+                },
+                JWT_SECRET,
+                {
+                  algorithm: 'HS256',
+                  subject: username,
+                  expiresIn: '7d'
+                }
+            );
+
+            let _jour;
+            
+            return Journey
+                .findOne()
+                .then(function(journey) {
+                    _jour = journey;
+                    console.log("put res ", journey)
+                    return journey;
+                })
+                .then(function(journey) {
+                    return chai.request(app)
+                    .get(`/api/journeys/id/${journey._id}`)
+                    .set('authorization', `Bearer ${token}`)
+                    .then(function(res) {
+                        expect(res).to.have.status(200);
+                        expect(res.body).to.be.an('object');
+                        expect(res.body).to.have.keys('id', 'title', 'location','loggedInUserName', 'dates', 'description', 'created', 'album');
+                        expect(res.body.title).to.equal(_jour.title);
+                        expect(res.body.location).to.equal(_jour.location);
+                        expect(res.body.description).to.equal(_jour.description);
+                    })
+                })    
+        })      
+    })
+    
 
     describe ('POST for journeys', function() {
         it('should create a new journey', function() {
