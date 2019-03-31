@@ -2,3 +2,10 @@ language: node_js
 node_js: node
 services:
 - mongodb
+deploy:
+  provider: heroku
+  api_key:
+    secure: H73hwJvdKgvHnq+oz5IRXpWZK+LZfVyiGDuqnBivCeuecUv3qh7HLAnTkHovPcecc3PFGPfFrUbijc3Vp0W/8nC9ZRO6CZwwYns/o7f1ho+9IkTdbF66aasgTJnr8DdDTD//gK5nQB8nzuyXIZGiS5qPnFI9zTGLxTpUpUDxd52Ftc9vLqNvqu2cDA+XW7AqmH5XJEj2DmvSlxr/3U5lJF1LmVAnVwLSlBPrOKVqYlFqxjlIvrlXE1mPrayV6YfIM29dlXzc+Oyh738tmkaNQ4xPEHFVRK8bUMffIscfd126Wh6a9e4AWSydbMQwZlAuQ2nVDpRcDOozkmgIoHJ76Xt4ebqABBYHzebfDWa49rq7/2kPcn5ff7C3AiMpH7JobJgliGUPHxeegsI11x1ZJ1PtTSRVhj1L4h8KBs7Wkdl1UVAraiogwdfqlkFRY4gqqQEAF1Kmw/E39+mK/NzPyuTv7oPYemzupTL3kFkTzRgTpm9zy8DY9Ka52BjdIVLsAQSI+ujkrx0sffc3YnrdlHaZulXIlWhYIUZF1LgDmPPX8aDP4BthAMN61UDEm3+BbTJhyYEBjWeKxmGDehFzBLd0o//8XI483puGhELLdZn//WE5GY1ayxMGsXYzToVqn6ILsmlmV60xwevuLza9wNt5hJ8t7tW3oysgFo7xxdg=
+  app: desolate-oasis-67341
+  on:
+    repo: ElenaG518/node-jwt-auth
