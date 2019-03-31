@@ -239,7 +239,7 @@ $('.journey-form').submit(function(event) {
     const description = $('#description').val();
     const loggedInUserName = $('#loggedInUserName').val();
     const album = $('#url').val();
-    console.log("url and token", album, token);
+    console.log("url and token", album);
     //create the payload object (what data we send to the api call)
     const journalObject = {
         title,
@@ -252,7 +252,7 @@ $('.journey-form').submit(function(event) {
     };
     console.log("POST ", journalObject);
     //make the api call using the payload above
-    
+    const token = getAuthToken();
     $.ajax({
             type: 'POST',
             url: '/api/journeys',
