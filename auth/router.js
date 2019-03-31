@@ -16,8 +16,6 @@ const createAuthToken = function(user) {
   });
 };
 
-
-
 const localAuth = passport.authenticate('local', {session: false});
 router.use(bodyParser.json());
 // The user provides a username and password to login
@@ -25,11 +23,10 @@ router.use(bodyParser.json());
 //  and passes them to a callback function, in this case localStategy in strategies.js
 router.post('/login', localAuth, (req, res) => {
   // the user object is added to the request object at req.user
-  console.log("req.user ", req.user);
+  console.log("req.user from login in auth ", req.user);
   const authToken = createAuthToken(req.user.serialize());
   res.json({authToken});
 });
-
 
 const jwtAuth = passport.authenticate('jwt', {session: false});
 
