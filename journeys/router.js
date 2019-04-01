@@ -51,6 +51,21 @@ router.get('/id/:id',jwtAuth, (req, res) => {
         });
 });
 
+// response for API call to get journey to edit by searching by journey Id
+router.get('/edit/:id', jwtAuth, (req, res) => {
+    console.log('looking by id');
+
+    console.log(req.params.id);
+    Journey
+        .findById(req.params.id)
+        .then(journey => res.json(journey))
+        .catch(err => {
+            console.error(err);
+            res.status(500).json({ error: "Could not retrieve journeys" });
+        });
+});
+
+
 // response for API call to create a journey with information provided by user
 router.post('/', jsonParser, jwtAuth, (req, res) => {
     console.log("post ", req.body, req.user);

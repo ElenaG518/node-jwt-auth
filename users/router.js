@@ -140,11 +140,9 @@ router.post('/', (req, res) => {
 // verify this in the Mongo shell.
 
 router.get('/', (req, res) => {
-  return User.find()
-  .then(users => {
-    console.log(users);
-    res.json({message: "success"});
-  })
+  return User
+  .find()
+  .then(users => res.json(users.map(user => user.serialize())))
   .catch(err => res.status(500).json({message: 'Internal server error'}));
 });
 

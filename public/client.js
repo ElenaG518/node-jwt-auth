@@ -176,7 +176,7 @@ function login(username, password) {
                 console.log(jqXHR);
                 console.log(error);
                 console.log(errorThrown);
-                const message = jqXHR.responseJSON.message;
+                const message = jqXHR;
                 alert(message);
             });
     };
@@ -565,7 +565,7 @@ function editJourney(id) {
     console.log(id);
     $.ajax({
             type: 'GET',
-            url: `/api/journeys/id/${id}`,
+            url: `/api/journeys/edit/${id}`,
             dataType: 'json',
             contentType: 'application/json',
             headers: {
@@ -729,9 +729,7 @@ $.ajax({
             type: 'GET',
             url: '/api/users',
             dataType: 'json',
-            contentType: 'application/json',
-            
-            
+            contentType: 'application/json'
         })
         .done(function(result) {
             console.log(result);
