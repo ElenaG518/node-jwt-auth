@@ -176,8 +176,8 @@ function login(username, password) {
                 console.log(jqXHR);
                 console.log(error);
                 console.log(errorThrown);
-                const message = jqXHR;
-                alert(message);
+                // const message = jqXHR.responseJSON.message;
+                alert("Incorrect username or password");
             });
     };
 };
@@ -561,6 +561,7 @@ $('.edit-journey-anchor').click(event => {
 
 // fetch journey to edit API call
 function editJourney(id) {
+    const token = getAuthToken();
     console.log("editJourney function ran");
     console.log(id);
     $.ajax({
@@ -596,13 +597,13 @@ function displayEditJourneyForm(data) {
          <form class="edit-form">
             <fieldset >
                 <legend>Edit Journey</legend>
-                <input type='text' id='edit-journey-id' name='journey-id' value ="${data.id}" class="hide" >
+                <input type='text' id='edit-journey-id' name='journey-id' value ="${data._id}" class="hide" >
                 <label for='edit-title'>Title:</label>
                 <input type='text' id='edit-title' name='title' value ="${data.title}" >
                     <label for='edit-location'>Location:</label>
                     <input type='text' id='edit-location' name='location' value ="${data.location}" >
-                    <label for="starting-date">Starting Date:</label> <input type="text" id="edit-datepicker-start" class="edit-start-dates" value=""></p>
-                    <label>Ending Date:</label> <input type="text" id="edit-datepicker-end" class="edit-end-dates" value =""></p>
+                    <label for="starting-date">Starting Date:</label> <input type="text" id="edit-datepicker-start" class="edit-start-dates" value="${data.startDates}" ></p>
+                    <label>Ending Date:</label> <input type="text" id="edit-datepicker-end" class="edit-end-dates" value ="${data.endDates}" ></p>
                     <label for='edit-description'>Journal Entry:</label>
                     <textarea class='edit-journal-text' id="edit-description" rows="10" cols="40">${data.description}</textarea>
                     <button role='button' type='submit' class='journal-edit-btn'>Submit</button>
@@ -678,7 +679,6 @@ $('.delete-journey-anchor').click(event => {
     console.log("delete journey clicked");
     event.preventDefault();
     const journeyId = journey_id;
-    journey_id = "";
     console.log(journeyId);
     myFunction(journeyId);
 });
@@ -688,6 +688,7 @@ function myFunction(journeyId) {
     if (r == true) {
         console.log("you pressed true");
         deleteJourney(journeyId);
+        journey_id = "";
         $('.album').empty();
     } else {
         console.log("You pressed Cancel!");
@@ -729,7 +730,9 @@ $.ajax({
             type: 'GET',
             url: '/api/users',
             dataType: 'json',
-            contentType: 'application/json'
+            contentType: 'application/json',
+            
+            
         })
         .done(function(result) {
             console.log(result);
